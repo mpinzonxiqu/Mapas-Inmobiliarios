@@ -10,3 +10,12 @@ export interface Proyecto {
   superficie: number;
   imagen_url: string;
 }
+
+export interface Proyecto {
+  id: number;
+  nombre: string;
+  descripcion: string;
+  precio: number;
+  latitud: number;
+  longitud: number;
+}

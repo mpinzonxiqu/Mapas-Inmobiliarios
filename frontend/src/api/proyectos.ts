@@ -1,8 +1,7 @@
 import axios from "axios";
+import type { Proyecto } from "../types";
 
-const API = "http://localhost:8000"; // cambia si usas Docker o dominio
-
-export const getProyectos = async () => {
-  const res = await axios.get(`${API}/proyectos/`);
+export async function getProyectos(): Promise<Proyecto[]> {
+  const res = await axios.get("http://localhost:8000/proyectos");
   return res.data;
-};
+}
