@@ -1,10 +1,26 @@
 import MapaGoogle from './components/MapaGoogle';
+import './styles.css';
+
+// src/App.tsx
+
 
 function App() {
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Proyectos Inmobiliarios 🏡</h1>
-      <MapaGoogle />
+    <div>
+      <header>
+        <h1>🏡 Proyectos Inmobiliarios</h1>
+        <p>Explora propiedades disponibles en el mapa</p>
+      </header>
+
+      <main>
+        <div className="card">
+          <MapaGoogle />
+        </div>
+      </main>
+
+      <footer>
+        © {new Date().getFullYear()} Propital · Prueba Técnica
+      </footer>
     </div>
   );
 }
