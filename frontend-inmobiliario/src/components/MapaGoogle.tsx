@@ -1,4 +1,4 @@
-import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
+import { GoogleMap, Marker, InfoWindow, useJsApiLoader } from '@react-google-maps/api';
 import { useEffect, useState } from 'react';
 
 interface Proyecto {
@@ -15,53 +15,63 @@ interface Proyecto {
 
 const containerStyle = {
   width: '100%',
-  height: '600px',
+  height: '500px',
 };
 
-const API_KEY = 'TU_GOOGLE_MAPS_API_KEY'; // ← Coloca aquí tu API KEY
+const API_KEY = 'AIzaSyCzKJJo-AVUCBxxL9dz9-UknR1Rg6RAP8s';
 
 const MapaGoogle = () => {
   const [proyectos, setProyectos] = useState<Proyecto[]>([]);
   const [seleccionado, setSeleccionado] = useState<Proyecto | null>(null);
 
+  const { isLoaded, loadError } = useJsApiLoader({
+    googleMapsApiKey: API_KEY,
+  });
+
   useEffect(() => {
     fetch('http://localhost:8000/proyectos/')
       .then((res) => res.json())
       .then((data) => setProyectos(data))
-      .catch((err) => console.error(err));
+      .catch((err) => console.error('Error al obtener proyectos:', err));
   }, []);
 
-  const center = proyectos.length > 0
-    ? { lat: proyectos[0].latitud, lng: proyectos[0].longitud }
-    : { lat: 4.67, lng: -74.11 };
+  const center =
+    proyectos.length > 0
+      ? { lat: proyectos[0].latitud, lng: proyectos[0].longitud }
+      : { lat: 4.67, lng: -74.11 };
+
+  if (loadError) return <div className="text-red-600">❌ Error al cargar Google Maps</div>;
+  if (!isLoaded) return <div className="text-blue-500">⏳ Cargando mapa...</div>;
 
   return (
-    <LoadScript googleMapsApiKey={API_KEY}>
-      <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={13}>
-        {proyectos.map((proyecto, i) => (
-          <Marker
-            key={i}
-            position={{ lat: proyecto.latitud, lng: proyecto.longitud }}
-            onClick={() => setSeleccionado(proyecto)}
-          />
-        ))}
+    <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={13}>
+      {proyectos.map((proyecto, i) => (
+        <Marker
+          key={i}
+          position={{ lat: proyecto.latitud, lng: proyecto.longitud }}
+          onClick={() => setSeleccionado(proyecto)}
+        />
+      ))}
 
-        {seleccionado && (
-          <InfoWindow
-            position={{ lat: seleccionado.latitud, lng: seleccionado.longitud }}
-            onCloseClick={() => setSeleccionado(null)}
-          >
-            <div className="max-w-[200px] text-sm">
-              <img src={seleccionado.imagen_url} alt={seleccionado.nombre} className="w-full h-24 object-cover rounded mb-2" />
-              <h2 className="font-bold">{seleccionado.nombre}</h2>
-              <p>{seleccionado.descripcion}</p>
-              <p className="text-green-700 font-semibold">${seleccionado.precio.toLocaleString()}</p>
-              <p className="text-xs text-gray-500">{seleccionado.ubicacion}</p>
-            </div>
-          </InfoWindow>
-        )}
-      </GoogleMap>
-    </LoadScript>
+      {seleccionado && (
+        <InfoWindow
+          position={{ lat: seleccionado.latitud, lng: seleccionado.longitud }}
+          onCloseClick={() => setSeleccionado(null)}
+        >
+          <div className="max-w-[200px] text-sm">
+            <img
+              src={seleccionado.imagen_url}
+              alt={seleccionado.nombre}
+              className="w-full h-24 object-cover rounded mb-2"
+            />
+            <h2 className="font-bold">{seleccionado.nombre}</h2>
+            <p>{seleccionado.descripcion}</p>
+            <p className="text-green-700 font-semibold">${seleccionado.precio.toLocaleString()}</p>
+            <p className="text-xs text-gray-500">{seleccionado.ubicacion}</p>
+          </div>
+        </InfoWindow>
+      )}
+    </GoogleMap>
   );
 };
 
