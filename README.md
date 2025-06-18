@@ -119,7 +119,7 @@ Esto levantará tanto el backend como el frontend en modo desarrollo.
 
 
 ✅ Tecnologías utilizadas
-Backend: FastAPI, SQLite, Pydantic, Uvicorn
+Backend: FastAPI, MYSQL xAMPP, Pydantic, Uvicorn
 
 Frontend: React, TypeScript, Leaflet, TailwindCSS
 
