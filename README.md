@@ -30,6 +30,7 @@ visualizador-inmobiliario/
 
 
 🔹 Descripción
+
 La aplicación muestra un mapa interactivo donde se visualizan los proyectos inmobiliarios. Cada proyecto aparece como un marcador que, al hacer clic, despliega una ventana emergente con su información.
 
 🔹 Características
@@ -46,8 +47,12 @@ Escrito en TypeScript.
 🔹 Instalación y ejecución
 bash
 
+----------------------------------------------------------------------------
+ frontend
 
-cd frontend
+ ---------------------------------------------------------------------------
+
+
 npm install
 npm run dev
 El frontend estará disponible en: http://localhost:5173
@@ -75,8 +80,32 @@ Se puede extender fácilmente para incluir filtrado, paginación y autenticació
 🔹 Instalación y ejecución
 bash
 
-cd backend
+
+Aclaracion Sobre Google Maps 
+
+✅ 2. Tener habilitada la facturación (aunque no te cobren)
+Google exige que cualquier clave API (de prueba o no) tenga:
+
+Una cuenta de facturación activa (tarjeta registrada)
+
+Pero no te cobrarán mientras uses menos de $200 USD al mes
+
+Esto es lo que pasa si no lo haces:
+
+🔴 El mapa carga por 2 segundos y desaparece, mostrando:
+“Esta página no cargó bien Google Maps...”
+
+
+----------------------------------------------------------------------------
+ backend
+
+ --------------------------------------------------------------------------
+
+
+
+
 python -m venv venv
+
 source venv/bin/activate  # En Windows: venv\Scripts\activate
 pip install -r requirements.txt
     
@@ -107,7 +136,7 @@ json
   "imagen_url": "https://via.placeholder.com/150"
 }
 
-
+------------------------------------------------------------------------------
 
 🐳 Docker (opcional)
 bash
